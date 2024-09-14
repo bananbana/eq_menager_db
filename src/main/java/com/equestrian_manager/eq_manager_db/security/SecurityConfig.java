@@ -1,4 +1,4 @@
-package com.equestrian_manager.eq_manager_db.config;
+package com.equestrian_manager.eq_manager_db.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/").permitAll();
+            auth.requestMatchers("/api/auth/*").permitAll();
             auth.anyRequest().authenticated();
         })
                 .oauth2Login(withDefaults())

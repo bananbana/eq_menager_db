@@ -30,6 +30,14 @@ public class User {
     @Size(max = 20)
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Stable> ownedStables;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(name = "user_stables", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "stable_id") })
+    private Set<Stable> stables = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -73,6 +81,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Stable> getOwnedStables() {
+        return ownedStables;
+    }
+
+    public void setOwnedStables(Set<Stable> ownedStables) {
+        this.ownedStables = ownedStables;
+    }
+
+    public Set<Stable> getStables() {
+        return stables;
+    }
+
+    public void setStables(Set<Stable> stables) {
+        this.stables = stables;
     }
 
     public Set<Role> getRoles() {
